@@ -1,6 +1,6 @@
 # List Google Users Example
 
-This project shows some basic functionality for listing users of a domain in a G-Suite account using the Python and .Net SDKs.  This README will not give all the necessary elements to accomplish that task.  Rather, it will point to the Google documentation or community information and highlight the elements from those document that seem to need extra emphasis for understanding how to work with the Google API and SDKs. 
+This project shows a basic example for listing users of a domain in a G-Suite account using the Python and .Net SDKs.  This README will not give all the necessary elements to accomplish that task.  Rather, it will point to the Google documentation or community information and highlight the elements from those document that seem to need extra emphasis for understanding how to work with the Google API and SDKs.
 
 ## Create an App
 
@@ -8,11 +8,11 @@ This is a *server to server* application example and will make use of a *service
 
 The first step is to create a project in the Google API console.  The [documentation](https://developers.google.com/admin-sdk/directory/v1/guides/prerequisites) for the prerequisites is fairly easy to follow.
 
-After the project has been created you'll enable the *Admin SDK*.  The documentation for this is not clear.  From the *Dashboard* for the project click on the "Library" in the left navigation column.  Search for the "Admin SDK" and "enable" it.  
+After the project has been created you'll enable the *Admin SDK*, or whichever API is relevant to your project.  The documentation for this action is not clear.  From the *Dashboard* for the project click on the "Library" in the left navigation column.  Search for the "Admin SDK", or whatever API you're going to be working with, and "enable" it.  
 
 ## Create a service account credential for the app
 
-Next, you need a [service account credential](https://developers.google.com/identity/protocols/oauth2#serviceaccount) for the project.  There are different paths in the UI you can follow to accomplish this depending on what already exists for the project.  Essentially, you need to create a service account and download the credential file.
+Next, you need a [service account credential](https://developers.google.com/identity/protocols/oauth2#serviceaccount) for the project.  There are different paths in the UI you can follow to accomplish this depending on what already exists for the project.  Essentially, you need to create a service account, add a key to the service account, and download the key file.
 
 * The service account doesn't need any roles.
 * It seems like a good idea to grant at least another administrator on the Google account admin access to the service account.
@@ -20,7 +20,7 @@ Next, you need a [service account credential](https://developers.google.com/iden
 * Enable "G Suite Domain-wide Delegation" for the service account.  More on this is given below in the section about global delegation.
 * Add a "*JSON*" Key for the service account
   * A "json" file should be downloaded by your browser.  This file has secret information in it that will be needed for your application to perform authentication.  **_Save this file and keep it safe_**.  
-* Copy the `Unique ID` for the service account.  **It's needed later** for the *domain wide delegation*. 
+* Copy the `Unique ID` for the service account.  **It's needed later** for the *domain wide delegation*.
 
 ## Scope
 
@@ -51,9 +51,33 @@ Next you [authorize the delegation of permissions to your service account](https
 
     This may take some time to go into effect.  See the *Note* [here](https://developers.google.com/identity/protocols/oauth2/service-account#delegatingauthority).
 
-## .Net
+## [Client Libraries](https://developers.google.com/api-client-library)
 
+### Basic Workflow
 
-## Python
+The [gettings started guide](https://github.com/googleapis/google-api-python-client/blob/master/docs/start.md) from the [Google API Python Client](https://github.com/googleapis/google-api-python-client) repository offers a general summation of the process working with the APIs.  
 
+* You "build an API-specific service object, make calls to the service, and process the response".  
+* You need to create a Google credential object to build the service object.  
+* The credential is created using the *JSON* file you downloaded when the key for the service account was created.
+* The client libraries abstract away the need to generate authentication tokens to call the Google API, amoung other things.
 
+### .Net
+
+The documentation for the [.Net libraries](https://developers.google.com/api-client-library/dotnet) is not refered to much in the language agnostic parts of the API guides.  It can be hard to find what you're looking for.  The most useful information I've found has come from hints at how things work in different community resources.  Here are some hints to get you started:
+
+#### [The .Net Client Library API List](https://developers.google.com/api-client-library/dotnet/apis)
+
+This page is an index of the many client libraries for the Google API.  
+
+Clicking on the "version" link leads to the Google page for that particular client libary. That page will indicate which [NuGet package](https://www.nuget.org/packages?q=Google.Apis) you need to install and reference to use that library.
+
+The link to the "[.Net reference documentation ...](https://googleapis.dev/dotnet/Google.Apis.Admin.Directory.directory_v1/latest/api/Google.Apis.Admin.Directory.directory_v1.html) leads to a full list of the classes and their definitions for that client library.  
+
+The OAauth 2.0 page will have sample code for authentication.  The [service account](https://developers.google.com/api-client-library/dotnet/guide/aaa_oauth#service-account) section is relevant to this guide, but the code in this example reads the JSON file rather than taking a path to a certificate file as an argument argument to a constructor as shown on that Google page.  
+
+[This repo](https://github.com/LindaLawton/Google-Dotnet-Samples) is a good source for examples and [tutorials](https://www.daimto.com/tutorials-2/).  It's "unofficial", but referenced by Google's [archived repo](https://github.com/googlearchive/google-api-dotnet-client-samples).
+
+### [Python Client Library](https://github.com/googleapis/google-api-python-client)
+
+The reference material in the "*docs*" folder of the repository from the sub-heading link, along with the "[Library reference documentation](https://github.com/googleapis/google-api-python-client/blob/master/docs/dyn/index.md)," are quite extensive and easy to follow.  I don't think this guide could add value to that content.
