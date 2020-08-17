@@ -7,6 +7,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(BASE_DIR, "input")
 
 USER_DOMAIN = "connorgp.com"
+IMPERSONATED_USER = "matt.larsen@connorgp.com"
 
 # Help documentation
 # https://github.com/googleapis/google-api-python-client/blob/master/docs/oauth-server.md
@@ -25,7 +26,7 @@ credentials = service_account.Credentials.from_service_account_file(
     SERVICE_ACCOUNT_FILE, scopes=SCOPES
 )
 
-delegated_credential = credentials.with_subject("matt.larsen@connorgp.com")
+delegated_credential = credentials.with_subject(IMPERSONATED_USER)
 
 admin_service = googleapiclient.discovery.build("admin", "directory_v1", credentials=delegated_credential)
 response = admin_service.users().list(domain=USER_DOMAIN).execute()
